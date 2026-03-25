@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DNR Region 2 HQ — Concrete Cheat Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222636;
+    --border: #2e3347;
+    --accent: #f5a623;
+    --accent2: #e05c3a;
+    --red: #e05c3a;
+    --green: #3db07a;
+    --blue: #4a9eff;
+    --muted: #6b7280;
+    --text: #e8eaf0;
+    --text2: #b0b6c6;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 0 40px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent);
+    padding: 16px 16px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .project-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .project-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.25;
+  }
+  .badge {
+    background: var(--accent);
+    color: #1a1200;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-family: var(--mono);
+  }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 12px;
+    gap: 4px;
+    scrollbar-width: none;
+    position: sticky;
+    top: 85px;
+    z-index: 99;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 10px 10px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .15s, border-color .15s;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    user-select: none;
+  }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* SECTIONS */
+  .section { display: none; padding: 0; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    margin: 12px 14px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .card-icon {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ci-amber { background: var(--accent); }
+  .ci-red { background: var(--red); }
+  .ci-green { background: var(--green); }
+  .ci-blue { background: var(--blue); }
+  .ci-muted { background: var(--muted); }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text2);
+  }
+  .card-body { padding: 12px 14px; }
+
+  /* ROWS */
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .row:last-child { border-bottom: none; }
+  .row-label {
+    font-size: 13px;
+    color: var(--text2);
+    flex-shrink: 0;
+  }
+  .row-value {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: right;
+  }
+  .val-hot { color: var(--red); }
+  .val-ok { color: var(--green); }
+  .val-warn { color: var(--accent); }
+  .val-blue { color: var(--blue); }
+
+  /* PILL LIST */
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 14px;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .pill-amber { background: rgba(245,166,35,.12); border-color: rgba(245,166,35,.4); color: var(--accent); }
+  .pill-red { background: rgba(224,92,58,.12); border-color: rgba(224,92,58,.4); color: var(--red); }
+  .pill-green { background: rgba(61,176,122,.12); border-color: rgba(61,176,122,.4); color: var(--green); }
+  .pill-blue { background: rgba(74,158,255,.12); border-color: rgba(74,158,255,.4); color: var(--blue); }
+  .pill-muted { background: rgba(107,114,128,.1); border-color: rgba(107,114,128,.3); color: var(--muted); }
+
+  /* FLAG ITEMS */
+  .flag {
+    display: flex;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .flag:last-child { border-bottom: none; }
+  .flag-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .ft-red { background: rgba(224,92,58,.15); color: var(--red); border: 1px solid rgba(224,92,58,.3); }
+  .ft-amber { background: rgba(245,166,35,.15); color: var(--accent); border: 1px solid rgba(245,166,35,.3); }
+  .ft-blue { background: rgba(74,158,255,.15); color: var(--blue); border: 1px solid rgba(74,158,255,.3); }
+  .ft-green { background: rgba(61,176,122,.15); color: var(--green); border: 1px solid rgba(61,176,122,.3); }
+  .flag-text {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.45;
+  }
+  .flag-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* MIX DESIGN TABLE */
+  .mix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .mix-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 6px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .mix-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text2);
+  }
+  .mix-table tr:last-child td { border-bottom: none; }
+  .mix-table td:first-child { color: var(--text); font-weight: 500; }
+  .mix-table td.mono { font-family: var(--mono); font-size: 12px; }
+  .mix-table td.hi { color: var(--red); font-family: var(--mono); font-weight: 600; }
+  .mix-table td.ok { color: var(--green); font-family: var(--mono); font-weight: 600; }
+  .mix-table tr.warn-row td { background: rgba(224,92,58,.05); }
+
+  /* SECTION HEADER inside sections */
+  .sec-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 16px 14px 4px;
+  }
+
+  /* NOTICE BOX */
+  .notice {
+    margin: 12px 14px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--accent);
+    background: rgba(245,166,35,.07);
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .notice strong { color: var(--accent); }
+
+  .notice-red {
+    border-left-color: var(--red);
+    background: rgba(224,92,58,.07);
+  }
+  .notice-red strong { color: var(--red); }
+
+  /* COMPACT LIST */
+  .clist {
+    padding: 4px 14px 10px;
+  }
+  .clist-item {
+    display: flex;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text2);
+    align-items: flex-start;
+    line-height: 1.4;
+  }
+  .clist-item:last-child { border-bottom: none; }
+  .clist-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .clist-item strong { color: var(--text); font-weight: 600; }
+
+  /* SCOPE GRID */
+  .scope-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+  }
+  .scope-cell {
+    background: var(--surface);
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .scope-cell-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 3px;
+  }
+  .scope-cell-val {
+    color: var(--text2);
+    line-height: 1.4;
+    font-size: 12px;
+  }
+  .inc { color: var(--green); }
+  .exc { color: var(--red); }
+  .tbd { color: var(--accent); }
+
+  /* BOTTOM PADDING */
+  .spacer { height: 20px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="project-label">DNR-462-492-88310</div>
+      <div class="project-name">DNR Region 2 HQ<br>Gainesville, GA</div>
+    </div>
+    <div class="badge">GC+ SCOPE</div>
+  </div>
+  <div class="header-sub">Concrete / Masonry / EIFS Cheat Sheet &nbsp;·&nbsp; Bid Set 03/06/2026</div>
+</div>
+
+<div class="tabs" id="tabNav">
+  <div class="tab active" data-tab="scope">Scope</div>
+  <div class="tab" data-tab="mixes">Mixes</div>
+  <div class="tab" data-tab="flags">Red Flags</div>
+  <div class="tab" data-tab="qa">QC/Testing</div>
+  <div class="tab" data-tab="rfi">RFIs</div>
+</div>
+
+<!-- ══════════════════════ SCOPE ══════════════════════ -->
+<div class="section active" id="scope">
+
+  <div class="sec-label">Spec Sections in Play</div>
+  <div class="card">
+    <div class="mix-table" style="width:100%;border-collapse:collapse;">
+      <tr>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);font-weight:600;font-size:13px;">03 0516</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);font-size:13px;">Underslab Vapor Barrier</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);"><span class="pill pill-amber" style="font-size:10px;">confirm sub</span></td>
+      </tr>
+      <tr>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);font-weight:600;font-size:13px;">03 3000</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);font-size:13px;">Cast-in-Place Concrete</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);"><span class="pill pill-green" style="font-size:10px;">GC+ scope</span></td>
+      </tr>
+      <tr>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);font-weight:600;font-size:13px;">03 3533</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);font-size:13px;">Stamped Concrete — Patio 121</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);"><span class="pill pill-amber" style="font-size:10px;">specialty</span></td>
+      </tr>
+      <tr>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);font-weight:600;font-size:13px;">32 1313</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);font-size:13px;">Concrete Paving (civil)</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);"><span class="pill pill-blue" style="font-size:10px;">civil EOR</span></td>
+      </tr>
+      <tr>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);font-weight:600;font-size:13px;">32 1373</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);font-size:13px;">Paving Joint Sealants</td>
+        <td style="padding:9px 14px;border-bottom:1px solid var(--border);"><span class="pill pill-blue" style="font-size:10px;">civil EOR</span></td>
+      </tr>
+      <tr>
+        <td style="padding:9px 14px;color:var(--text);font-weight:600;font-size:13px;">09 9673</td>
+        <td style="padding:9px 14px;color:var(--text2);font-size:13px;">Concrete Densifying Sealers</td>
+        <td style="padding:9px 14px;"><span class="pill pill-red" style="font-size:10px;">clarify</span></td>
+      </tr>
+    </div>
+  </div>
+
+  <div class="sec-label">What's Included in 03 3000</div>
+  <div class="card">
+    <div class="clist">
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Footings</strong> — spread, strip, isolated</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Slab on grade</strong> — interior + exterior (4,500 psi exterior)</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Columns</strong> — listed explicitly in scope summary</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Landings, stairs, ramps</strong> on grade</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Steel pan stair fill</strong> — trowel finish req'd</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Equipment bases + anchor bolts</strong></div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Curbs</strong> (interior monolithic, steel-trowel finish)</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Misc. fill-in</strong> after other trades</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Formwork</strong> — design, erect, shore, remove</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Joint filling</strong> — min. 1-month deferral, return trip</div></div>
+    </div>
+  </div>
+
+  <div class="sec-label">Scope — In / Out / Unclear</div>
+  <div class="card">
+    <div class="scope-grid">
+      <div class="scope-cell">
+        <div class="scope-cell-label">Vapor barrier</div>
+        <div class="scope-cell-val tbd">Confirm with GC. Own section (03 0516) but concrete trade work.</div>
+      </div>
+      <div class="scope-cell">
+        <div class="scope-cell-label">Rebar supply + place</div>
+        <div class="scope-cell-val inc">✓ In scope. Shop drawings required.</div>
+      </div>
+      <div class="scope-cell">
+        <div class="scope-cell-label">Densifying sealer</div>
+        <div class="scope-cell-val tbd">Div 09 — could be flooring sub. Clarify.</div>
+      </div>
+      <div class="scope-cell">
+        <div class="scope-cell-label">Steel pan stairs</div>
+        <div class="scope-cell-val exc">Div 05 — not GC+. We fill only.</div>
+      </div>
+      <div class="scope-cell">
+        <div class="scope-cell-label">Embedded items (sleeves)</div>
+        <div class="scope-cell-val tbd">Confirm if GC+ sets or others furnish & we set.</div>
+      </div>
+      <div class="scope-cell">
+        <div class="scope-cell-label">Flood testing (epoxy)</div>
+        <div class="scope-cell-val tbd">Required pre-epoxy. Scope not assigned.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<!-- ══════════════════════ MIXES ══════════════════════ -->
+<div class="section" id="mixes">
+
+  <div class="sec-label">Mix Design Summary</div>
+  <div class="card">
+    <table class="mix-table">
+      <tr>
+        <th>Application</th>
+        <th>f'c</th>
+        <th>w/cm</th>
+        <th>Air</th>
+      </tr>
+      <tr>
+        <td>Footings</td>
+        <td class="ok mono">3,000</td>
+        <td class="mono">0.55</td>
+        <td class="mono">4.5%±1</td>
+      </tr>
+      <tr class="warn-row">
+        <td>All other bldg. elements<br><span style="font-size:11px;color:var(--muted);">incl. exterior SOG</span></td>
+        <td class="hi mono">4,500</td>
+        <td class="hi mono">0.45</td>
+        <td class="hi mono">6%±1</td>
+      </tr>
+      <tr>
+        <td>Ext. paving (32 1313)</td>
+        <td class="ok mono">4,000</td>
+        <td class="mono">ACI 301</td>
+        <td class="mono">5%±1</td>
+      </tr>
+      <tr>
+        <td>Stamped patio<br><span style="font-size:11px;color:var(--muted);">Patio 121 only</span></td>
+        <td class="mono" style="color:var(--blue);">Match base</td>
+        <td class="mono">Same</td>
+        <td class="mono">4" max slump</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="notice notice-red" style="margin-top:10px;">
+    <strong>Watch:</strong> 4,500 psi SOG at 0.45 w/cm + 6% air needs a WRA (Type F or G) to hit 4" slump. Tighter mix = higher material cost. Confirm with ready-mix supplier before bid.
+  </div>
+
+  <div class="sec-label">Admixtures + Materials</div>
+  <div class="card">
+    <div class="flag">
+      <span class="flag-tag ft-red">HARD NO</span>
+      <div class="flag-text"><strong>No calcium chloride</strong> — stated in both 03 3000 and stamped concrete section. No exceptions.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-red">HARD NO</span>
+      <div class="flag-text"><strong>No field water addition.</strong> Water withheld for site addition is not permitted.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">CEMENT</span>
+      <div class="flag-text">Portland Type I, I/II, or III + fly ash (Class C or F). <strong>No other SCMs.</strong> Ext. paving requires ≥40% fly ash substitution.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">STAMPED</span>
+      <div class="flag-text"><strong>White cement full-depth</strong> for stamped patio. Basis of design: Matcrete. All chemical components from single manufacturer.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-blue">PAVING</span>
+      <div class="flag-text">Synthetic monofilament PP fiber required at <strong>≥1 lb/cu yd</strong> (ASTM C1116 Type III). Not in building concrete.</div>
+    </div>
+  </div>
+
+  <div class="sec-label">Hot/Cold Weather Limits</div>
+  <div class="card">
+    <div class="row"><div class="row-label">Max concrete temp at placement</div><div class="row-value val-hot">90°F</div></div>
+    <div class="row"><div class="row-label">Cold weather threshold</div><div class="row-value val-blue">40°F avg high/low</div></div>
+    <div class="row"><div class="row-label">Stamped patio — no pour below</div><div class="row-value val-blue">55°F air</div></div>
+    <div class="row"><div class="row-label">Stamped patio — no pour above</div><div class="row-value val-hot">80°F air</div></div>
+    <div class="row"><div class="row-label">Delivery time at 85–90°F</div><div class="row-value val-warn">75 min</div></div>
+    <div class="row"><div class="row-label">Delivery time above 90°F</div><div class="row-value val-hot">60 min</div></div>
+  </div>
+
+  <div class="sec-label">Finishing Standards — Slabs</div>
+  <div class="card">
+    <div class="row"><div class="row-label">Standard trowel (FF/FL overall)</div><div class="row-value val-ok">F30 / F20</div></div>
+    <div class="row"><div class="row-label">Minimum local</div><div class="row-value">F24 / F15</div></div>
+    <div class="row"><div class="row-label">Gym / athletic areas overall</div><div class="row-value val-warn">F35 / F25</div></div>
+    <div class="row"><div class="row-label">Measure within</div><div class="row-value val-hot">24–72 hrs of pour</div></div>
+    <div class="row"><div class="row-label">Exterior / ramps / steps</div><div class="row-value">Broom finish</div></div>
+    <div class="row"><div class="row-label">Exposed formed surfaces</div><div class="row-value">Rubbed finish</div></div>
+  </div>
+
+  <div class="sec-label">Vapor Barrier (03 0516)</div>
+  <div class="card">
+    <div class="row"><div class="row-label">Product (basis of design)</div><div class="row-value val-blue">Stego Wrap 15 mil</div></div>
+    <div class="row"><div class="row-label">Standard</div><div class="row-value">ASTM E1745 Class A</div></div>
+    <div class="row"><div class="row-label">Max permeance</div><div class="row-value">0.010 perms</div></div>
+    <div class="row"><div class="row-label">Seam lap</div><div class="row-value">6" min, tape all</div></div>
+    <div class="row"><div class="row-label">Rebar chairs</div><div class="row-value val-hot">Manufacturer-specific only</div></div>
+    <div class="row"><div class="row-label">Penetrations allowed</div><div class="row-value">Rebar + perm. utilities only</div></div>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<!-- ══════════════════════ RED FLAGS ══════════════════════ -->
+<div class="section" id="flags">
+
+  <div class="notice notice-red">
+    <strong>Priority items</strong> that could hurt price, schedule, or execution. Review before finalizing bid.
+  </div>
+
+  <div class="sec-label">Pricing Risks</div>
+  <div class="card">
+    <div class="flag">
+      <span class="flag-tag ft-red">COST</span>
+      <div class="flag-text"><strong>4,500 psi exterior SOG is unusually high.</strong> Most specs run 3,500–4,000 psi. This mix with 0.45 w/cm + 6% air will cost more. Get supplier confirmation before bid.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-red">COST</span>
+      <div class="flag-text"><strong>40% fly ash substitution in paving</strong> (32 1313) is aggressive. Could affect early strength. Confirm mix design can hit 4,000 psi at 28 days in Georgia summer.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">COST</span>
+      <div class="flag-text"><strong>Stamped patio color/pattern not yet selected</strong> by architect. You're pricing a TBD product. Note that white cement full-depth adds material cost over standard gray.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">COST</span>
+      <div class="flag-text"><strong>Joint filling is a return trip.</strong> Minimum 1-month deferral after pour; no construction traffic allowed first. Budget a separate mobilization late in schedule.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">COST</span>
+      <div class="flag-text"><strong>Cylinder curing box is contractor-furnished.</strong> Section 3.16.C.15 — provide "secure, protected curing box." Small but easy to miss.</div>
+    </div>
+  </div>
+
+  <div class="sec-label">Schedule Risks</div>
+  <div class="card">
+    <div class="flag">
+      <span class="flag-tag ft-red">SCHEDULE</span>
+      <div class="flag-text"><strong>FF/FL measurement within 72 hours of each pour.</strong> You need a Dipstick crew on-call. Miss the window and the tolerance reading is invalid — potential rework.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-red">SCHEDULE</span>
+      <div class="flag-text"><strong>Stamped patio: 28-day wait before surface treatment.</strong> Pour → stamp → cure → wait 28 days → clean → seal. Plan return mobilization.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">SCHEDULE</span>
+      <div class="flag-text"><strong>Paving: 14-day traffic exclusion</strong> after pour. Active site will need careful sequencing to avoid cutting off access routes.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">SCHEDULE</span>
+      <div class="flag-text"><strong>Multiple preinstallation conferences required:</strong> vapor barrier (14 days before), CIP concrete, stamped concrete (10 days before), densifier. Budget superintendent time.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">SCHEDULE</span>
+      <div class="flag-text"><strong>Stamped patio temp window is 55–80°F.</strong> Rules out Georgia summer afternoons and cold winter mornings. Plan pour timing accordingly.</div>
+    </div>
+  </div>
+
+  <div class="sec-label">QC / Compliance Risks</div>
+  <div class="card">
+    <div class="flag">
+      <span class="flag-tag ft-red">QC</span>
+      <div class="flag-text"><strong>Additional testing at contractor's expense</strong> if work fails and must be replaced or re-evaluated (§3.16.C.13). Normal testing is Owner-paid; retesting after failure is on us.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-red">QC</span>
+      <div class="flag-text"><strong>Wire fabric must be on chairs — no pulling up.</strong> §3.06.F explicitly prohibits it. Inspector will flag this. Brief crew before every pour.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">QC</span>
+      <div class="flag-text"><strong>Field-cured cylinders &lt; 85% of lab-cured</strong> triggers mandatory investigation and corrective procedures. Watch summer pours.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">QC</span>
+      <div class="flag-text"><strong>Stamped installer needs 5 years documented experience</strong> + project list submission. Vet your stamped concrete sub early.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-blue">GOOD NEWS</span>
+      <div class="flag-text"><strong>$0/day liquidated damages</strong> (Contract §5). No daily exposure for late Material Completion. Owner still has actual damages rights, but no preset clock.</div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<!-- ══════════════════════ QC / TESTING ══════════════════════ -->
+<div class="section" id="qa">
+
+  <div class="sec-label">Who Pays for Testing</div>
+  <div class="card">
+    <div class="flag">
+      <span class="flag-tag ft-green">OWNER</span>
+      <div class="flag-text">Owner engages and pays for the independent testing agency for all standard field tests (§3.16.A). This is not our cost.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-red">US</span>
+      <div class="flag-text">Additional testing required after failed work or replaced work is <strong>contractor's expense</strong> (§3.16.C.13).</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-red">US</span>
+      <div class="flag-text"><strong>Cylinder curing box</strong> — we provide it. Secure and protected. Easy to forget.</div>
+    </div>
+  </div>
+
+  <div class="sec-label">Testing Frequency</div>
+  <div class="card">
+    <div class="row"><div class="row-label">Sample frequency</div><div class="row-value">1 set per 50 CY</div></div>
+    <div class="row"><div class="row-label">Cylinders per set</div><div class="row-value">4 cast + 2 reserve</div></div>
+    <div class="row"><div class="row-label">Break schedule</div><div class="row-value">1 @ 7-day, 2 @ 28-day</div></div>
+    <div class="row"><div class="row-label">Results reported within</div><div class="row-value">48 hrs of test</div></div>
+    <div class="row"><div class="row-label">Pass criterion</div><div class="row-value">Avg of 3 consec. ≥ f'c</div></div>
+    <div class="row"><div class="row-label">Single test floor</div><div class="row-value val-warn">f'c – 500 psi max drop</div></div>
+  </div>
+
+  <div class="sec-label">Required Inspections (§3.16.B)</div>
+  <div class="card">
+    <div class="clist">
+      <div class="clist-item"><div class="clist-dot"></div><div>Steel reinforcement placement</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Steel reinforcement welding</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Headed bolts and studs</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Verification of design mixture in use</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Concrete placement (conveying + depositing)</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Curing procedures + temperature maintenance</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Strength verification before form/shore removal</div></div>
+    </div>
+  </div>
+
+  <div class="sec-label">Curing Requirements</div>
+  <div class="card">
+    <div class="row"><div class="row-label">Building concrete (ACI 308.1)</div><div class="row-value val-ok">7-day moist cure</div></div>
+    <div class="row"><div class="row-label">Method options</div><div class="row-value" style="font-size:12px;">Moist / wet cover / curing compound</div></div>
+    <div class="row"><div class="row-label">Curing compound — VCT areas</div><div class="row-value val-hot">Must be VCT-compatible</div></div>
+    <div class="row"><div class="row-label">Exterior paving</div><div class="row-value">Moist or cover only</div></div>
+    <div class="row"><div class="row-label">Stamped patio</div><div class="row-value val-blue">Matcrete proprietary cpd.</div></div>
+    <div class="row"><div class="row-label">Stamped — no plastic sheeting</div><div class="row-value val-hot">Prohibited</div></div>
+    <div class="row"><div class="row-label">Patching mortar (cracks/holes)</div><div class="row-value">Keep moist 72 hrs</div></div>
+  </div>
+
+  <div class="sec-label">Key Submittal Requirements</div>
+  <div class="card">
+    <div class="clist">
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Design mixtures</strong> — for each concrete type</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Rebar shop drawings</strong> — full bending/placing diagrams</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Vapor barrier shop drawings</strong> — project-specific, incl. waterproofing transition detail</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>SOG joint layout drawing</strong> — dimensioned plan</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>12 categories of material certificates</strong> (cement, admixtures, forms, rebar, waterstops, curing, etc.)</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Stamped concrete</strong> — 24"×24" sample board for arch. approval</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>Stamped concrete installer project list</strong> — with arch. names + quantities</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div><strong>FF/FL measurements</strong> — reported within 72 hrs of pour</div></div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<!-- ══════════════════════ RFIs ══════════════════════ -->
+<div class="section" id="rfi">
+
+  <div class="notice">
+    <strong>Send these before bid.</strong> Each one is either a pricing gap or a scope dispute waiting to happen.
+  </div>
+
+  <div class="sec-label">Scope Clarifications Needed</div>
+  <div class="card">
+    <div class="flag">
+      <span class="flag-tag ft-red">RFI 1</span>
+      <div class="flag-text"><strong>Is 09 9673 (Concrete Densifying Sealers) in GC+ scope?</strong> It's a Div 09 spec — could be flooring sub. If ours, the 5-year installer qualification and preinstallation conference add cost.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-red">RFI 2</span>
+      <div class="flag-text"><strong>Who is responsible for 03 0516 (Vapor Barrier)?</strong> It's a standalone section with shop drawing requirements, manufacturer-specific rebar chairs, and conference requirements. Confirm assignment.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">RFI 3</span>
+      <div class="flag-text"><strong>SOG reinforcement — rebar or WWF?</strong> Spec lists both products but doesn't specify which for SOG. Structural drawings govern; confirm from S-series sheets before takeoff.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">RFI 4</span>
+      <div class="flag-text"><strong>Who produces the SOG joint layout drawing?</strong> Required submittal per §1.02.I. Clarify whether GC+ generates this or the structural EOR provides it.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">RFI 5</span>
+      <div class="flag-text"><strong>GC+ responsibility for embedded items (sleeves, inserts)?</strong> §3.02 covers setting of embedded items but is ambiguous about who is responsible vs. who just places to templates provided by others.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">RFI 6</span>
+      <div class="flag-text"><strong>Slab flood testing before epoxy (§3.12.E) — who performs?</strong> Required on all epoxy slab areas. Not assigned to a specific trade. Could be us or epoxy contractor.</div>
+    </div>
+  </div>
+
+  <div class="sec-label">Design / Spec Ambiguities</div>
+  <div class="card">
+    <div class="flag">
+      <span class="flag-tag ft-amber">RFI 7</span>
+      <div class="flag-text"><strong>Which columns are exposed vs. concealed?</strong> Exposed faces require smooth-formed finish + rubbed finish. Column count and finish requirements need to come from architectural drawings — request clarity if not evident.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-amber">RFI 8</span>
+      <div class="flag-text"><strong>Stamped patio color + pattern selection.</strong> Currently TBD by architect. White cement full-depth is specified, but integral color and release agent color are "architect's selection." Price an allowance or note the open item.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-blue">RFI 9</span>
+      <div class="flag-text"><strong>Exterior paving fly ash substitution confirmation.</strong> 40% minimum replacement (32 1313 §2.7.B) is high. Verify with ready-mix that a compliant mix can hit 4,000 psi at 28 days in local summer conditions — confirm before bid or note contingency.</div>
+    </div>
+    <div class="flag">
+      <span class="flag-tag ft-blue">RFI 10</span>
+      <div class="flag-text"><strong>Vapor barrier / below-grade waterproofing transition.</strong> Shop drawing must show this connection detail, but the waterproofing is a separate spec section. Confirm who owns the interface and provides the detail.</div>
+    </div>
+  </div>
+
+  <div class="sec-label">Things to Walk at Site</div>
+  <div class="card">
+    <div class="clist">
+      <div class="clist-item"><div class="clist-dot"></div><div>Confirm locations of <strong>North Patio 121</strong> (stamped concrete) — size affects specialty sub cost significantly</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Assess site access for <strong>concrete pump</strong> — no pump spec'd but columns + elevated work likely require it</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Look for <strong>existing utilities</strong> in paving areas — saw-cut joints near them are labor-intensive</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Identify <strong>column locations + sizes</strong> — smooth-form and rubbed finish labor adds up fast</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Check <strong>slab areas receiving epoxy</strong> — flood test + densifier scope clarification needed</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Confirm <strong>building count + layout</strong> — three buildings (Office, LED, WRD) each have separate foundation + SOG pours</div></div>
+      <div class="clist-item"><div class="clist-dot"></div><div>Look at <strong>paving phasing</strong> — 14-day traffic exclusion per pour needs to be planned with site access in mind</div></div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const sections = document.querySelectorAll('.section');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      tabs.forEach(t => t.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(target).classList.add('active');
+      window.scrollTo({top: 0, behavior: 'instant'});
+    });
+  });
+</script>
+</body>
+</html>
